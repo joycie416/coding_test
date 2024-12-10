@@ -19,6 +19,8 @@ function solution(book_time) {
   const len = book_time.length
   for (let i = 1; i < len; i++) {
     let booked = false
+    // 예약 상황을 보고 청소 후 시점이 시작 시간 전이면 예약 추가
+    // 예약 추가된 경우 다른 방 확인하지 않음
     for (const room in answer) {
       if (answer[room][1] <= books[i][0]) {
         answer[room] = books[i]
@@ -26,6 +28,7 @@ function solution(book_time) {
         break
       }
     }
+    // 예약이 추가되지 않은 경우 새 방을 추가함
     if (!booked) {
       answer.push(books[i]);
     }
@@ -50,3 +53,27 @@ const book = [
   ["14:10", "19:20"],
 ];
 console.log(solution(book));
+
+
+
+// 다른 사람 풀이
+function makeMinStamp(time) {
+  const [hour, min] = time.split(":").map(v => Number(v));
+  return hour * 60 + min;
+}
+
+function solution1(book_time) {
+  const timeArr = Array.from({ length: makeMinStamp('23:59') + 10 }, () => 0);
+
+  book_time.forEach((time, i) => {
+      const [s, e] = time;
+      let start = makeMinStamp(s);
+      const end = makeMinStamp(e) + 9;
+
+      for (start; start <= end; start++) {
+          timeArr[start]++;
+      }
+  });
+
+  return Math.max(...timeArr);
+}
