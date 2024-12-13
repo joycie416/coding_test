@@ -31,5 +31,13 @@ function solution(storey) {
   return answer;
 }
 
+// 다른 사람 풀이 (재귀 함수)
+function solution(storey) {
+  if (storey < 5) return storey;
+  const r = storey % 10;
+  const m = (storey - r) / 10;
+  return Math.min(r + solution(m), 10 - r + solution(m + 1));
+}
+
 const storey = 155;
 console.log(solution(storey))
